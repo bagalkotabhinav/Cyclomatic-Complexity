@@ -20,8 +20,7 @@ Follow the steps below to build the Clang plugin:
 1. **Create a build directory** and navigate into it:
 
     ```bash
-    mkdir build
-    cd build
+    mkdir build && cd build
     ```
 
 2. **Run CMake** to configure the build process:
