@@ -45,7 +45,7 @@ After successful compilation, you should see the `libcyclomatic_complexity.so` s
 To analyze cyclomatic complexity, run the Clang plugin with a C/C++ source file as input. The plugin will generate cyclomatic complexity values for each function in the code.
 
 ```bash
-clang -cc1 -load ./libcyclomatic_complexity.so -plugin cyclomatic-complexity <source-file>
+clang -cc1 -load ./libcyclomatic_complexity.so -plugin cyclomatic-complexity ../test/test.cpp
 ```
 
 Replace `<source-file>` with the path to your C or C++ source file. The results will include the cyclomatic complexity values for each function in the code.
@@ -57,7 +57,7 @@ The plugin generates control flow graphs in `.dot` format. You can use `dot`, a 
 1. Generate a `.png` image from the `.dot` file:
 
     ```bash
-    dot -Tpng <function_name>_cfg.dot -o <function_name>_cfg.png
+    dot -Tpng complexFunction_cfg.dot -o complexFunction_cfg.png
     ```
 
 This will generate a PNG image of the control flow graph for the function. You can open the image to visualize the flow of the code and the various paths that can be taken.
