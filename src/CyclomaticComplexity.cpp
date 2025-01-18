@@ -1,4 +1,5 @@
-#include "../include/CyclomaticComplexity.h"
+// CyclomaticComplexity.cpp
+#include "CyclomaticComplexity.h"
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -17,21 +18,49 @@ bool CyclomaticComplexityVisitor::isInHeader(Decl *decl) {
 
 int CyclomaticComplexityVisitor::calculateComplexity(const Stmt *stmt) {
     if (!stmt) return 0;
-    int complexity = 1;  // Base complexity
-
-    // Count decision points
-    if (isa<IfStmt>(stmt) || isa<SwitchStmt>(stmt) || 
-        isa<ForStmt>(stmt) || isa<WhileStmt>(stmt) || 
-        isa<DoStmt>(stmt) || isa<ConditionalOperator>(stmt)) {
-        complexity++;
-    }
-
-    // Process nested statements
-    for (const Stmt *child : stmt->children()) {
-        if (child) {
-            complexity += calculateComplexity(child);
+    
+    // Initialize complexity
+    int complexity = 0;
+    
+    // Define what constitutes a decision point
+    auto isDecisionPoint = [](const Stmt *s) {
+        return isa<IfStmt>(s) || 
+               isa<SwitchStmt>(s) || 
+               isa<ForStmt>(s) || 
+               isa<WhileStmt>(s) || 
+               isa<DoStmt>(s) || 
+               isa<ConditionalOperator>(s) ||
+               isa<CaseStmt>(s);  // Count case statements as decision points
+    };
+    
+    // Create a visitor to count all decision points
+    class ComplexityCounter : public RecursiveASTVisitor<ComplexityCounter> {
+    private:
+        int count = 0;
+        const std::function<bool(const Stmt*)>& isDecision;
+        
+    public:
+        ComplexityCounter(const std::function<bool(const Stmt*)>& checker) 
+            : isDecision(checker) {}
+            
+        bool VisitStmt(Stmt *stmt) {
+            if (isDecision(stmt)) {
+                count++;
+            }
+            return true;
         }
-    }
+        
+        int getCount() const { return count; }
+    };
+    
+    // Count decision points
+    ComplexityCounter counter(isDecisionPoint);
+    counter.TraverseStmt(const_cast<Stmt*>(stmt));
+    
+    // McCabe's Cyclomatic Complexity = E - N + 2
+    // Where E - N + 2 is equivalent to number of decision points + 1
+    complexity = counter.getCount() + 1;
+    
     return complexity;
 }
 
