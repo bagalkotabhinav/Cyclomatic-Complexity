@@ -1,5 +1,3 @@
-Here’s an enhanced version of the README with improved structure and clarity:
-
 ---
 
 # Cyclomatic Complexity Clang Plugin
