@@ -42,7 +42,7 @@ After successful compilation, you should see the `libcyclomatic_complexity.so` s
 To analyze cyclomatic complexity, run the Clang plugin with a C/C++ source file as input. The plugin will generate cyclomatic complexity values for each function in the code.
 
 ```bash
-clang -cc1 -load ./libcyclomatic_complexity.so -plugin cyclomatic-complexity ../test/test.cpp
+clang -cc1 -load ./libcyclomatic_complexity.so -plugin cyclomatic-complexity ../test/test.c
 ```
 
 Replace `<source-file>` with the path to your C or C++ source file. The results will include the cyclomatic complexity values for each function in the code.
