@@ -1,3 +1,4 @@
+// CyclomaticComplexity.h
 #ifndef CYCLOMATIC_COMPLEXITY_H
 #define CYCLOMATIC_COMPLEXITY_H
 
@@ -9,6 +10,7 @@
 #include "clang/Analysis/CFG.h"
 #include <string>
 #include <map>
+#include <functional>
 
 using namespace clang;
 
